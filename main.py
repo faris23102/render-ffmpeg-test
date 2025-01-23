@@ -12,27 +12,23 @@ def run_command(cmd):
     return proc.returncode
 
 def main():
-    print("Starting FFmpeg test script on Render...")
+    print("Starting local test with a file I already have...")
 
-    # 1) Download a short 1MB MP4 (Big Buck Bunny sample)
-    ret = run_command("curl -k -L https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4 -o test_input.mp4")
+    # No download step needed!
+    # So we skip or remove the run_command("curl -k -L ....")
 
-    if ret != 0:
-        print("Download failed. Exiting.")
-        sys.exit(1)
-
-    # 2) Re-encode with FFmpeg
-    ret = run_command("ffmpeg -y -i test_input.mp4 -c:v libx264 -c:a aac output.mp4")
+    # 1) Just re-encode the local file.
+    ret = run_command("ffmpeg -y -i sample_960x400_ocean_with_audio.mp4 -c:v libx264 -c:a aac output.mp4")
     if ret != 0:
         print("FFmpeg re-encode failed. Exiting.")
         sys.exit(1)
 
-    print("FFmpeg re-encode succeeded! Check 'output.mp4' if needed.")
+    print("FFmpeg re-encode succeeded with your local MP4!")
     print("Now sleeping forever so you can see logs...")
 
-    # Sleep forever so the service doesn't exit.
     while True:
         time.sleep(600)
+
 
 if __name__ == "__main__":
     main()
