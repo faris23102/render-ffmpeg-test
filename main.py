@@ -1,6 +1,12 @@
-import subprocess
+import threading
 import time
-import sys
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Hello from the FFmpeg test script!"
 
 def run_command(cmd):
     """Helper to run a shell command, print stdout/stderr, and return code."""
@@ -10,6 +16,7 @@ def run_command(cmd):
     print("[STDERR]:", proc.stderr)
     print("[Return code]:", proc.returncode)
     return proc.returncode
+
 
 def main():
     print("Starting local test with a file I already have...")
@@ -29,6 +36,8 @@ def main():
     while True:
         time.sleep(600)
 
+# Then start the Flask server so Render sees an open port:
+app.run(host="0.0.0.0", port=8000)
 
 if __name__ == "__main__":
     main()
